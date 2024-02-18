@@ -35,6 +35,7 @@
   margin: 0 auto;
   max-inline-size: 700px;
 }
+
 .header {
   min-block-size: 364px;
   display: flex;
@@ -47,6 +48,7 @@
   padding-bottom: 20px;
   margin-bottom: 102px;
 }
+
 @media (width <= 375px) {
   .header {
   }
@@ -57,19 +59,19 @@
   justify-content: center;
   align-items: center;
 }
+
 .logo {
   font-size: clamp(3.0625rem, 2.7104rem + 1.5023vw, 4.0625rem);
   text-decoration: none;
-  font-weight: 400;
-  line-height: 65px;
 }
 
 .title_header {
-  font-size: 23px;
+  font-size: clamp(0.875rem, 0.6769rem + 0.8451vw, 1.4375rem); /*Исправил*/
   line-height: 23px;
   text-transform: uppercase;
   padding: 20px 0 25px 0;
 }
+
 .theme-menu__list {
   display: flex;
   flex-direction: column;
@@ -78,7 +80,6 @@
   font-size: 14px;
   font-weight: 400;
   line-height: 14px;
-
   border: none;
 }
 
@@ -89,53 +90,19 @@
   cursor: pointer;
   border: none;
 }
-.theme-menu__button:disabled::before {
-  position: absolute;
-  content: "▶";
-  color: inherit;
-  top: 0;
-  left: -15%;
-  animation: strelka 500ms ease-in-out infinite alternate;
-  opacity: 0.6;
-  pointer-events: none;
-}
 
-@keyframes strelka {
-  0% {
-    transform: translateX(0);
-  }
-
-  100% {
-    transform: translateX(4px);
-  }
-}
-
-.theme-menu__button:not(:disabled)::after {
-  display: block;
-  content: "";
-  background: currentColor;
-  transition: transform 0.3s ease, opacity 0.3s ease;
-  transform: scaleX(0);
-  transform-origin: left;
-  height: 2px;
-  opacity: 0.6;
-}
-
-.theme-menu__button:focus-visible::after {
-  opacity: 0.6;
-  transform: scaleX(1);
+.theme-menu__button:focus {
   border: none;
+}
+
+.theme-menu__button:active {
+  opacity: 0.6;
 }
 
 .image-container {
   block-size: 700px; /*Высота блока*/
-  border: 2px solid #000000;
+  border: 2px solid var(--accent-color);
   position: relative;
-}
-@media (width < 768px) {
-  .image-container {
-    block-size: 372px; /*Высота блока*/
-  }
 }
 
 .label {
@@ -146,9 +113,25 @@
   font-weight: 400;
   line-height: 14px;
   mix-blend-mode: hard-light;
-  -webkit-text-stroke: 1px #ffffff;
+  -webkit-text-stroke: 1px var(--background-color);
   -webkit-text-fill-color: var(--accent-color);
   font-family: var(--accent-font);
+}
+
+@supports (text-stroke: 1px black) or (text-stroke: 1px black) {
+  .label {
+    -webkit-text-stroke: none;
+    text-stroke: 1px black;
+    text-shadow: none;
+  }
+}
+
+@media not all {
+  .label {
+    -webkit-text-stroke: 1px #ffffff;
+    -webkit-text-fill-color: var(--accent-color);
+    text-shadow: none;
+  }
 }
 
 .img {
@@ -157,6 +140,38 @@
   object-fit: cover;
   object-position: center;
   /* filter: blur(3.2rem); Позже добавить */
+}
+
+.card__1 {
+  filter: opacity(60%);
+}
+
+.card__2 {
+  filter: brightness(200%);
+}
+
+.card__3 {
+  filter: saturate(300%); /*Насыщенность цвета*/
+}
+
+.card__4 {
+  filter: hue-rotate(200deg);
+}
+
+.card__5 {
+  filter: sepia(100%);
+}
+
+.card__6 {
+  filter: grayscale(76%);
+}
+
+.card__7 {
+  filter: blur(1.2rem);
+}
+
+.card__8 {
+  filter: contrast(20%);
 }
 
 .section_title {
@@ -170,11 +185,10 @@
 }
 
 .sprint {
-  /* inline-size: 696px; Ширина блока */
   display: flex;
   flex-direction: column;
   justify-content: center;
-  /* outline: 2px solid var(--accent-color, #000); */
+
   background-color: var(--background-color);
   margin-bottom: 50px;
 }
@@ -188,16 +202,9 @@
   font-variation-settings: "wght" 400;
   line-height: 21px;
   gap: 26px;
-  border-inline: 2px solid #000000;
-  border-bottom: 2px solid #000000;
+  border-inline: 2px solid var(--accent-color);
+  border-bottom: 2px solid var(--accent-color);
 }
-
-/* .p {
-  color: var(--text-color);
-  font-size: 18px;
-  font-weight: 400;
-  font-family:var(--main-font);
-} */
 
 .card-button {
   display: flex;
@@ -206,6 +213,7 @@
   block-size: 39px;
   gap: 3px;
 }
+
 .button {
   position: relative;
   overflow: hidden;
@@ -222,6 +230,7 @@
   line-height: 13px;
   background-color: var(--background-color);
 }
+
 .button::before {
   content: "";
   position: absolute;
@@ -234,27 +243,35 @@
   background-color: var(--accent-color);
   transition: 0.5s ease-in-out;
 }
+
 .button:focus {
   outline: none;
-  box-shadow: 2p 2p var(--accent-color);
+  box-shadow: 2px 2px var(--accent-color);
+  transition: 0.5s ease-in-out; /*Плавный фокус в виде тени на кнопке*/
 }
+
 .button:hover::before {
   transform: translateX(0);
+  border: none;
 }
+
 .card__like-button:focus {
   outline: none; /* отменяем стандартную обводку */
-  box-shadow: 2px 2px 0px var(--box-shadow); /* добавляем тень блока */
+  box-shadow: 2px 2px 0px var(--accent-color); /* добавляем тень блока */
 }
+
 .button__text {
   /*текст перекрашивался постепенно*/
   color: var(--accent-color-button);
   mix-blend-mode: difference;
 }
+
 .card__icon-button {
   background-color: transparent;
   border: none;
   block-size: 100%;
 }
+
 .card__icon-button:focus {
   border: none;
 }
@@ -265,95 +282,8 @@
   outline-offset: 2px;
 }
 
-.sparks {
-  opacity: 0;
-}
-.like-icon:hover .core {
-  fill: var(--accent-color-contour);
-  transition: fill 0.3s linear;
-}
-.like-icon .core {
-  transition-delay: 0.03s;
-  transition: fill 0.3s linear;
-  fill: transparent;
-}
-
-.like-icon:hover .main-body {
-  /*Тело сердце*/
-  fill: var(--accent-color-contour);
-  transition: fill 0.3s linear; /*Линейная плавноссть в течении 0.3 секунд*/
-  transition-delay: 0.05s; /*задержка перехода*/
-}
-
-.like-icon .main-body {
-  transition: fill 0.3s linear;
-  fill: transparent;
-}
-/**/
-.like-icon:active .core {
-  fill: var(--color-sparks);
-  transition: fill 0.3s linear;
-}
-
-.like-icon:active .main-body {
-  /*Тело сердце*/
-  fill: var(--color-sparks);
-  transition: fill 0.3s linear; /*Линейная плавноссть в течении 0.3 секунд*/
-  transition-delay: 0.05s; /*задержка перехода*/
-}
-/*Клик по иконке*/
-.like-icon.is-liked .core {
-  /*Закрашивается сердцевина*/
-  fill: var(--color-sparks);
-  transition: fill 0.3s linear;
-}
-
-.like-icon.is-liked .main-body {
-  /*Закрашивается основное тело*/
-  fill: var(--color-sparks);
-  transition: fill 0.3s linear;
-}
-
-.like-icon.is-liked .contour {
-  /*Еще с большей задержкой закрашивается контур.*/
-  fill: var(--accent-color);
-  transition-delay: 0.06s;
-  transition: fill 0.3s linear;
-}
-/**/
-.like-icon.is-liked .heart {
-  animation: heart 0.3s ease-in 0.1s alternate;
-  transform-origin: center;
-}
-@keyframes heart {
-  0% {
-    transform: scale(1);
-  }
-
-  100% {
-    transform: scale(1.5);
-  }
-}
-
-.like-icon.is-liked .sparks {
-  animation: sparks 0.3s ease-in 0.3s 1 forwards;
-}
-
-@keyframes sparks {
-  0% {
-    opacity: 0;
-    color: var(--color-sparks);
-  }
-
-  100% {
-    opacity: 1;
-    color: var(--color-sparks);
-  }
-}
-.like-icon.is-liked .contour::before {
-  /*Еще с большей задержкой закрашивается контур.*/
-  fill: var(--color-sparks);
-  transition: fill 0.1s linear;
+.like-icon {
+  cursor: pointer;
 }
 
 .section-save {
@@ -361,7 +291,9 @@
   justify-content: center;
   align-items: center;
   font-family: var(--accent-font);
+  padding-top: 4px;
 }
+
 .section__card-icon_button {
   display: flex;
   align-items: center;
@@ -371,19 +303,29 @@
   min-inline-size: 335px;
   position: relative;
   background-color: var(--background-color);
+  border: 2px solid var(--accent-color);
 }
+
+.section__card-icon_button:focus {
+  outline: none;
+  box-shadow: 2px 2px var(--accent-color);
+  transition: 0.5s ease-in-out; /*Плавный фокус в виде тени на кнопке*/
+}
+
 .section__card-icon_button svg {
   width: 21px;
   height: 21px;
 }
+
 .section__card-icon_button .button__text {
   font-size: 14px;
   font-weight: 400;
   line-height: 13px;
 }
-.dialog__window {
+
+.dialog__window[open] {
   max-inline-size: 357px;
-  padding: 30px;
+  padding: 25px;
   background-color: var(--background-color);
   border: 2px solid var(--accent-color);
   position: fixed;
@@ -391,23 +333,30 @@
   left: 0;
 }
 
+.dialog__floppy {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding-bottom: 39px;
+}
+
 .dialog__window::backdrop {
   background-color: rgba(0, 0, 0, 0.75);
 }
 
-.dialog__floppy {
-  display: flex;
-  align-items: center;
-  gap: 29px;
-  margin-bottom: 30px;
+.dialog__window {
+  color: var(--accent-color);
 }
-.dialog__floppy svg {
-  transform: scale(2.35);
-  color: var(--accent-color-button);
+
+.under_floppy {
+  block-size: 28px;
+  inline-size: 28px;
 }
+
 .dialog__floppy-text {
-  
-  background-color: var(--accent-color-button);
+  color: var(--accent-color);
+  line-height: 21px;
+  text-transform: uppercase;
 }
 
 .close {
@@ -415,8 +364,9 @@
   width: 100%;
   padding: 9px 17px;
   position: relative;
-  border: 1px solid var(--accent-color-button);
+  border: 2px solid var(--accent-color);
 }
+
 .button__style,
 .close {
   overflow: hidden;
@@ -435,7 +385,79 @@
   background-color: var(--accent-color);
   transition: 0.5s ease-in-out;
 }
+
 .button__style:hover::before,
 .close:hover::before {
   transform: translateX(0);
+}
+
+.floppy_mix {
+  min-inline-size: 39px;
+  block-size: 39px;
+}
+
+@media (width < 768px) {
+  .page {
+    max-width: 700px;
+  }
+
+  .image-container {
+    block-size: 372px; /*Высота блока*/
+  }
+
+  .header {
+    margin-bottom: 100px;
+    min-block-size: 326px;
+  }
+
+  .label {
+    right: 12px;
+    top: 25px;
+  }
+
+  .title_header {
+    padding: 10px 0 21px 0;
+  }
+
+  .section_content {
+    padding: 30px 25px 23px 26px;
+  }
+
+  .logo {
+    line-height: 65px;
+  }
+
+  .under_floppy {
+    block-size: 21px;
+    inline-size: 21px;
+  }
+
+  .button__text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .section__card-icon_button {
+    flex-direction: column;
+    align-items: flex-start;
+    min-inline-size: 306px;
+    min-block-size: 84px;
+    padding-left: 20px;
+  }
+
+  .section__card-icon_button svg {
+    width: 28px;
+    height: 28px;
+    margin-bottom: 8px;
+  }
+
+  .dialog__window[open] {
+    max-inline-size: 341px;
+    padding: 31px;
+  }
+
+  .dialog__floppy {
+    padding-bottom: 30px;
+  }
 }
